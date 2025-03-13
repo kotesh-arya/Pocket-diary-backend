@@ -8,7 +8,12 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 4000;
 app.use(express.json());
-app.use(cors());
+app.use(
+    cors({
+        origin: ["https://pocket-diary-v1.netlify.app", "http://localhost:3000"], // Allow both origins
+    })
+);
+
 
 // Initialize Firebase Admin SDK
 const serviceAccount = {
