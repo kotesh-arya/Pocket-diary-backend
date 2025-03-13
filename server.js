@@ -6,6 +6,7 @@ import fs from "fs";
 
 dotenv.config();
 const app = express();
+const port = process.env.PORT || 4000;
 app.use(express.json());
 app.use(cors());
 
@@ -54,4 +55,4 @@ app.delete("/entries/:id", async (req, res) => {
     res.json({ message: "Entry deleted" });
 });
 
-app.listen(8080, () => console.log("Server running on port 8080"));
+app.listen(port, () => console.log("Server running on port 8080"));
