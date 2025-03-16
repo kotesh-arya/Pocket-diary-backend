@@ -29,6 +29,7 @@ app.get("/", async (req, res, next) => {
     try {
         res.json({ message: "Pocket diary backend running successfully" });
     } catch (error) {
+        console.log("Error while starting backend server", error);
         next(error);
     }
 });
@@ -40,6 +41,7 @@ app.get("/entries", async (req, res, next) => {
         const entries = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         res.json(entries);
     } catch (error) {
+        console.log("Error while getting entries", error);
         next(error);
     }
 });
@@ -54,6 +56,7 @@ app.post("/entries", async (req, res, next) => {
         const newEntry = await db.collection("diaryEntries").add({ text, date });
         res.status(201).json({ id: newEntry.id, text, date });
     } catch (error) {
+        console.log("Error while adding entry", error);
         next(error);
     }
 });
@@ -70,6 +73,7 @@ app.delete("/entries/:id", async (req, res, next) => {
         await entryRef.delete();
         res.json({ message: "Entry deleted successfully" });
     } catch (error) {
+        console.log("Error while deleting entry", error);
         next(error);
     }
 });
