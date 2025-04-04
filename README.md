@@ -1,131 +1,104 @@
 # Parkaroo Backend
 
-Parkaroo is a platform that helps users find and list nearby parking spaces. This repository contains the backend service built using Node.js and Express, with Firebase Firestore as the database. The backend handles authentication, parking space data management, and integrates with the frontend.
+Parkaroo is a parking space discovery and management application that connects drivers with nearby available parking spaces, including private spaces listed by homeowners.
+
+This repository contains the **backend server** of the Parkaroo application built using **Node.js**, **Express**, and **Firebase Firestore**.
+
+---
 
 ## Features Implemented
 
-### 1. Server Setup
+### 1. **Authentication**
+- Firebase Authentication is used to manage user sign-up and sign-in.
+- Authenticated users are assigned roles (`driver` or `owner`).
+- Role-based access is enabled.
 
-Built with Node.js and Express.js
+### 2. **User Roles**
+- **Drivers** can view nearby parking spots.
+- **Owners** can view and manage parking spots they have listed.
 
-Handles API requests for user authentication and parking space management
+### 3. **Parking Spot Management**
+- Owners can:
+  - Add a new parking spot.
+  - View a list of their added parking spots.
+- Data is stored in **Firestore**, organized by collections for users and parking spots.
 
+### 4. **API Endpoints**
+- `POST /api/parking-spots`: Add a new parking spot (Owners only).
+- `GET /api/parking-spots?ownerId=<ownerId>`: Get all parking spots listed by an owner.
+- `GET /api/nearby-spots?lat=<lat>&lng=<lng>`: Get nearby parking spots for drivers (to be expanded with geolocation logic).
 
-### 2. Database Integration
+### 5. **Cloud Functions Integration**
+- Plans are in place to use **Firebase Cloud Functions** to handle secure database operations from the backend.
+- This will abstract Firestore logic from the frontend and enforce validation/security at the backend layer.
 
-Uses Firebase Firestore for storing parking space data
+---
 
-Plans to use Firebase Cloud Functions for secure backend operations
+## Tech Stack
 
+- **Backend Framework**: Node.js + Express
+- **Database**: Firebase Firestore
+- **Authentication**: Firebase Auth
+- **Hosting**: AWS EC2
+- **Deployment**: Nginx reverse proxy for serving backend API
 
-### 3. API Requests & Communication
+---
 
-Uses Axios for making API calls between frontend and backend
+## Folder Structure
 
-
-### 4. Hosting & Deployment
-
-Hosted on AWS EC2 Instance (Amazon Linux, t3.micro instance)
-
-Configured Nginx as a reverse proxy to manage server requests
-
-
-## Installation & Setup
-
-### Prerequisites
-
-Ensure you have the following installed:
-
-- Node.js (v16 or later)
-
-- npm or yarn
-
-- Firebase CLI (for deploying Cloud Functions, if needed)
-
-
-## Steps to Run Locally
-
-### 1. Clone this repository:
 ```
-git clone https://github.com/kotesh-arya/parkaroo-backend.git
-cd parkaroo-backend
-```
-
-### 2. Install dependencies:
-```
-npm install
-```
-
-3. Set up your environment variables (e.g., Firebase credentials) in a .env file:
-```
-FIREBASE_PROJECT_ID=your_project_id
-FIREBASE_PRIVATE_KEY=your_private_key
-FIREBASE_CLIENT_EMAIL=your_client_email
-PORT=3000
+parkaroo-backend/
+├── controllers/
+│   └── parkingController.js
+├── routes/
+│   └── parkingRoutes.js
+├── services/
+│   └── firebaseService.js
+├── app.js
+├── server.js
+└── README.md
 ```
 
-4. Start the server:
-```
-npm start
-```
+---
 
-5. The backend will be running at http://localhost:3000
+## Setup Instructions
 
-## WIP list
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/parkaroo-backend.git
+   cd parkaroo-backend
+   ```
 
-- API Endpoints
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-- Authentication
+3. **Set up Firebase credentials**
+   - Add your Firebase service account key file.
+   - Create a `.env` file and configure the following:
+     ```
+     FIREBASE_PROJECT_ID=your-project-id
+     FIREBASE_CLIENT_EMAIL=your-service-account-email
+     FIREBASE_PRIVATE_KEY="your-private-key"
+     ```
 
-- Parking Space Management
+4. **Run the server**
+   ```bash
+   npm start
+   ```
 
-- Deployment on AWS EC2
+---
 
-- Deployed on an AWS EC2 t3.micro instance (Amazon Linux)
+## To Do (Upcoming Features)
 
-- Nginx is used as a reverse proxy to manage traffic
+- [ ] Implement Firebase Cloud Functions for secure database access.
+- [ ] Add geolocation support to fetch nearby parking spots.
+- [ ] Add update and delete functionality for parking spots.
+- [ ] Enhance role-based middleware for route protection.
+- [ ] Integrate booking functionality for drivers.
 
-- Backend runs on port 3000
-
-## Steps followed:
-
-1. Launched an EC2 instance and installed Node.js
-
-
-2. Set up Nginx to proxy requests to the Node.js server
-
-
-3. Started the backend service
-
-
-
-
-## Future Enhancements
-
-- Firebase Cloud Functions for better security & performance
-
-- Role-based access control (RBAC) for different user roles
-
-- Real-time updates using Firebase listeners
-
-
-## Contributing
-
-If you would like to contribute:
-
-1. Fork the repository
-
-
-2. Create a new branch (git checkout -b feature-branch)
-
-
-3. Make your changes and commit (git commit -m "Added new feature")
-
-
-4. Push to the branch (git push origin feature-branch)
-
-
-5. Open a pull request
+---
 
 
 
